@@ -2319,14 +2319,22 @@ async def get_popular_pages(
 @api_router.post("/admin/properties", response_model=dict)
 async def admin_create_property(property_data: PropertyCreate, current_user: User = Depends(get_current_admin)):
     """Create property - Admin only"""
-    property_dict = property_data.dict()
-    property_dict["id"] = str(uuid.uuid4())
-    property_dict["created_at"] = datetime.utcnow()
-    property_dict["updated_at"] = datetime.utcnow()
-    property_dict["views"] = 0
-    
-    await db.properties.insert_one(property_dict)
-    return {"message": "Property created successfully", "id": property_dict["id"]}
+    try:
+        logger.info(f"Creating property by admin: {current_user.username}")
+        logger.info(f"Property data: {property_data.dict()}")
+        
+        property_dict = property_data.dict()
+        property_dict["id"] = str(uuid.uuid4())
+        property_dict["created_at"] = datetime.utcnow()
+        property_dict["updated_at"] = datetime.utcnow()
+        property_dict["views"] = 0
+        
+        await db.properties.insert_one(property_dict)
+        logger.info(f"Property created successfully with ID: {property_dict['id']}")
+        return {"message": "Property created successfully", "id": property_dict["id"]}
+    except Exception as e:
+        logger.error(f"Error creating property: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error creating property: {str(e)}")
 
 @api_router.put("/admin/properties/{property_id}", response_model=dict)
 async def admin_update_property(property_id: str, property_data: PropertyUpdate, current_user: User = Depends(get_current_admin)):
