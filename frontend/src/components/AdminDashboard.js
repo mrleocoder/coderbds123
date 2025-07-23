@@ -175,7 +175,10 @@ const AdminDashboard = () => {
         { name: 'deposits', url: `${API}/admin/transactions` },
         { name: 'memberPosts', url: `${API}/admin/posts` },
         { name: 'settings', url: `${API}/admin/settings` },
-        { name: 'stats', url: `${API}/admin/dashboard/stats` }
+        { name: 'stats', url: `${API}/admin/dashboard/stats` },
+        { name: 'traffic', url: `${API}/analytics/traffic?period=month` },
+        { name: 'recentActivities', url: `${API}/admin/recent-activities` },
+        { name: 'cityStats', url: `${API}/analytics/popular-pages?limit=10` }
       ];
 
       const results = {};
