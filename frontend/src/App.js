@@ -15,6 +15,11 @@ import SimStorePage from './components/SimStorePage';
 import LandDetailPage from './components/LandDetailPage';
 import ContactForm from './components/ContactForm';
 import ContactPage from './components/ContactPage';
+import { testUploadImage, testAdminProperty } from './utils/apiTest';
+
+// Make API tests available globally for debugging
+window.testUploadImage = testUploadImage;
+window.testAdminProperty = testAdminProperty;
 
 // ScrollToTop component
 function ScrollToTop() {
