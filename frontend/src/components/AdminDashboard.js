@@ -1942,7 +1942,7 @@ const AdminDashboard = () => {
                             category: formData.get('category'),
                             author: formData.get('author'),
                             excerpt: formData.get('excerpt'),
-                            content: newsContent || editingItem?.content || '',
+                            content: newsContent || '',
                             published: formData.get('published') === 'on',
                             featured_image: featuredImage || editingItem?.featured_image,
                             tags: [] // Add missing tags field
