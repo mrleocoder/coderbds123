@@ -1344,7 +1344,7 @@ const PropertyDetailPage = () => {
           
           <div className="p-6 border-t">
             <h3 className="text-lg font-semibold mb-4">Mô tả chi tiết</h3>
-            <p className="text-gray-600 leading-relaxed">{property.description}</p>
+            <div className="text-gray-600 leading-relaxed prose max-w-none" dangerouslySetInnerHTML={{__html: property.description}}></div>
           </div>
         </div>
         
