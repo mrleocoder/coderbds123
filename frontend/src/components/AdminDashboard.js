@@ -284,22 +284,24 @@ const AdminDashboard = () => {
     setEditingItem(item);
     setShowModal(true);
     
-    // Reset editor states when opening modal
-    if (item) {
-      // Editing mode - set content from item
-      if (type === 'property') {
-        setPropertyDescription(item.description || '');
-      } else if (type === 'news') {
-        setNewsContent(item.content || '');
-      } else if (type === 'land') {
-        setLandDescription(item.description || '');
+    // Reset editor states when opening modal - use setTimeout to ensure modal is rendered first
+    setTimeout(() => {
+      if (item) {
+        // Editing mode - set content from item
+        if (type === 'property') {
+          setPropertyDescription(item.description || '');
+        } else if (type === 'news') {
+          setNewsContent(item.content || '');
+        } else if (type === 'land') {
+          setLandDescription(item.description || '');
+        }
+      } else {
+        // New item mode - clear all editor states
+        setPropertyDescription('');
+        setNewsContent('');
+        setLandDescription('');
       }
-    } else {
-      // New item mode - clear all editor states
-      setPropertyDescription('');
-      setNewsContent('');
-      setLandDescription('');
-    }
+    }, 100);
   };
 
   // Test simple image upload functionality
