@@ -2032,6 +2032,7 @@ const AdminDashboard = () => {
                               </div>
                               <input 
                                 type="file" 
+                                name="featured_image"
                                 className="hidden" 
                                 accept="image/*"
                                 onChange={(e) => {
