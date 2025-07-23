@@ -283,6 +283,23 @@ const AdminDashboard = () => {
     setModalType(type);
     setEditingItem(item);
     setShowModal(true);
+    
+    // Reset editor states when opening modal
+    if (item) {
+      // Editing mode - set content from item
+      if (type === 'property') {
+        setPropertyDescription(item.description || '');
+      } else if (type === 'news') {
+        setNewsContent(item.content || '');
+      } else if (type === 'land') {
+        setLandDescription(item.description || '');
+      }
+    } else {
+      // New item mode - clear all editor states
+      setPropertyDescription('');
+      setNewsContent('');
+      setLandDescription('');
+    }
   };
 
   // Test simple image upload functionality
