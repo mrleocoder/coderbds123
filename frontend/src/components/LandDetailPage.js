@@ -308,7 +308,7 @@ const LandDetailPage = () => {
               <i className="fas fa-info-circle text-emerald-600 mr-2"></i>
               Mô tả chi tiết
             </h3>
-            <p className="text-gray-600 leading-relaxed whitespace-pre-line">{land.description}</p>
+            <div className="text-gray-600 leading-relaxed prose max-w-none" dangerouslySetInnerHTML={{__html: land.description}}></div>
           </div>
 
           {/* Additional Info */}
