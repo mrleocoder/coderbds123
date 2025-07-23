@@ -238,6 +238,34 @@ const AdminDashboard = () => {
       setMemberPosts(results.memberPosts || []);
       setSiteSettings(results.settings || {});
       setStats(results.stats || {});
+      
+      // Process traffic data for chart
+      if (results.traffic && results.traffic.data && results.traffic.data.length > 0) {
+        const chartData = {
+          labels: results.traffic.data.map(item => {
+            const date = new Date(item.date);
+            return date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
+          }).reverse(),
+          datasets: [{
+            label: 'Lượt xem',
+            data: results.traffic.data.map(item => item.views).reverse(),
+            borderColor: 'rgb(16, 185, 129)',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            tension: 0.4
+          }, {
+            label: 'Khách duy nhất',
+            data: results.traffic.data.map(item => item.unique_visitors).reverse(),
+            borderColor: 'rgb(59, 130, 246)',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            tension: 0.4
+          }]
+        };
+        setTrafficData(chartData);
+      }
+      
+      // Set recent activities and city stats
+      setRecentActivities(results.recentActivities || []);
+      setCityStats(results.cityStats || []);
 
       console.log('✅ Admin data loaded successfully');
       console.log('=== ADMIN DASHBOARD DEBUG END ===');
