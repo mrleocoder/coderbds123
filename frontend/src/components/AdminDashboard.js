@@ -941,42 +941,25 @@ const AdminDashboard = () => {
                     Hoạt động gần đây
                   </h3>
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                          <i className="fas fa-plus text-green-600 text-xs"></i>
+                    {recentActivities.length > 0 ? recentActivities.map((activity, index) => (
+                      <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-8 h-8 bg-${activity.color}-100 rounded-full flex items-center justify-center`}>
+                            <i className={`${activity.icon} text-${activity.color}-600 text-xs`}></i>
+                          </div>
+                          <div>
+                            <p className="font-medium">{activity.title}</p>
+                            <p className="text-sm text-gray-500">{activity.description}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium">Thêm BDS mới</p>
-                          <p className="text-sm text-gray-500">Căn hộ cao cấp tại Quận 1</p>
-                        </div>
+                        <span className="text-sm text-gray-400">{activity.time_ago}</span>
                       </div>
-                      <span className="text-sm text-gray-400">2 giờ trước</span>
-                    </div>
-                    <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                          <i className="fas fa-user text-blue-600 text-xs"></i>
-                        </div>
-                        <div>
-                          <p className="font-medium">Thành viên mới</p>
-                          <p className="text-sm text-gray-500">member1 đã đăng ký</p>
-                        </div>
+                    )) : (
+                      <div className="text-center py-8 text-gray-500">
+                        <i className="fas fa-clock text-2xl mb-2"></i>
+                        <p>Chưa có hoạt động gần đây</p>
                       </div>
-                      <span className="text-sm text-gray-400">4 giờ trước</span>
-                    </div>
-                    <div className="flex items-center justify-between py-2 border-b border-gray-100">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                          <i className="fas fa-coins text-yellow-600 text-xs"></i>
-                        </div>
-                        <div>
-                          <p className="font-medium">Yêu cầu nạp tiền</p>
-                          <p className="text-sm text-gray-500">500,000 VNĐ - Chờ duyệt</p>
-                        </div>
-                      </div>
-                      <span className="text-sm text-gray-400">6 giờ trước</span>
-                    </div>
+                    )}
                   </div>
                 </div>
 
