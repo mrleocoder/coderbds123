@@ -2203,7 +2203,8 @@ const AdminDashboard = () => {
                           const token = localStorage.getItem('token');
                           
                           // Process image uploads
-                          const imageFiles = e.target.querySelector('input[name="images"]').files;
+                          const imageInput = e.target.querySelector('input[name="images"]');
+                          const imageFiles = imageInput ? imageInput.files : null;
                           const images = [];
                           
                           if (imageFiles && imageFiles.length > 0) {
