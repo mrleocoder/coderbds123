@@ -2436,15 +2436,23 @@ async def admin_delete_sim(sim_id: str, current_user: User = Depends(get_current
 @api_router.post("/admin/lands", response_model=dict)
 async def admin_create_land(land_data: LandCreate, current_user: User = Depends(get_current_admin)):
     """Create land - Admin only"""
-    land_dict = land_data.dict()
-    land_dict["id"] = str(uuid.uuid4())
-    land_dict["created_at"] = datetime.utcnow()
-    land_dict["updated_at"] = datetime.utcnow()
-    land_dict["views"] = 0
-    land_dict["status"] = "for_sale"
-    
-    await db.lands.insert_one(land_dict)
-    return {"message": "Land created successfully", "id": land_dict["id"]}
+    try:
+        logger.info(f"Creating land by admin: {current_user.username}")
+        logger.info(f"Land data: {land_data.dict()}")
+        
+        land_dict = land_data.dict()
+        land_dict["id"] = str(uuid.uuid4())
+        land_dict["created_at"] = datetime.utcnow()
+        land_dict["updated_at"] = datetime.utcnow()
+        land_dict["views"] = 0
+        land_dict["status"] = "for_sale"
+        
+        await db.lands.insert_one(land_dict)
+        logger.info(f"Land created successfully with ID: {land_dict['id']}")
+        return {"message": "Land created successfully", "id": land_dict["id"]}
+    except Exception as e:
+        logger.error(f"Error creating land: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error creating land: {str(e)}")
 
 @api_router.put("/admin/lands/{land_id}", response_model=dict)
 async def admin_update_land(land_id: str, land_data: LandUpdate, current_user: User = Depends(get_current_admin)):
