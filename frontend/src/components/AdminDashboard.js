@@ -47,6 +47,8 @@ const AdminDashboard = () => {
   const [siteSettings, setSiteSettings] = useState({});
   const [stats, setStats] = useState({});
   const [trafficData, setTrafficData] = useState(null);
+  const [recentActivities, setRecentActivities] = useState([]);
+  const [cityStats, setCityStats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
