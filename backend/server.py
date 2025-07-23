@@ -2360,15 +2360,23 @@ async def admin_delete_property(property_id: str, current_user: User = Depends(g
 @api_router.post("/admin/news", response_model=dict)
 async def admin_create_news(news_data: NewsCreate, current_user: User = Depends(get_current_admin)):
     """Create news - Admin only"""
-    news_dict = news_data.dict()
-    news_dict["id"] = str(uuid.uuid4())
-    news_dict["slug"] = news_dict["title"].lower().replace(" ", "-")
-    news_dict["created_at"] = datetime.utcnow()
-    news_dict["updated_at"] = datetime.utcnow()
-    news_dict["views"] = 0
-    
-    await db.news_articles.insert_one(news_dict)
-    return {"message": "News created successfully", "id": news_dict["id"]}
+    try:
+        logger.info(f"Creating news by admin: {current_user.username}")
+        logger.info(f"News data: {news_data.dict()}")
+        
+        news_dict = news_data.dict()
+        news_dict["id"] = str(uuid.uuid4())
+        news_dict["slug"] = news_dict["title"].lower().replace(" ", "-")
+        news_dict["created_at"] = datetime.utcnow()
+        news_dict["updated_at"] = datetime.utcnow()
+        news_dict["views"] = 0
+        
+        await db.news_articles.insert_one(news_dict)
+        logger.info(f"News created successfully with ID: {news_dict['id']}")
+        return {"message": "News created successfully", "id": news_dict["id"]}
+    except Exception as e:
+        logger.error(f"Error creating news: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error creating news: {str(e)}")
 
 @api_router.put("/admin/news/{news_id}", response_model=dict)
 async def admin_update_news(news_id: str, news_data: NewsUpdate, current_user: User = Depends(get_current_admin)):
