@@ -2977,6 +2977,79 @@ async def upload_multiple_images(files: List[UploadFile] = File(...)):
         logger.error(f"Error uploading multiple images: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error uploading images: {str(e)}")
 
+# Admin Recent Activities API
+@api_router.get("/admin/recent-activities")
+async def get_recent_activities(
+    limit: int = Query(10, le=50),
+    current_user: User = Depends(get_current_admin)
+):
+    """Get recent activities for admin dashboard"""
+    try:
+        activities = []
+        
+        # Get recent properties (last 7 days)
+        recent_properties = await db.properties.find({
+            "created_at": {"$gte": datetime.utcnow() - timedelta(days=7)}
+        }).sort("created_at", -1).limit(3).to_list(3)
+        
+        for prop in recent_properties:
+            time_diff = datetime.utcnow() - prop['created_at']
+            hours_ago = int(time_diff.total_seconds() / 3600)
+            activities.append({
+                "type": "property_created",
+                "icon": "fas fa-home",
+                "color": "green",
+                "title": "Thêm BDS mới",
+                "description": prop['title'][:50] + ("..." if len(prop['title']) > 50 else ""),
+                "time_ago": f"{hours_ago} giờ trước" if hours_ago > 0 else "Vừa xong",
+                "timestamp": prop['created_at']
+            })
+        
+        # Get recent users (last 7 days)
+        recent_users = await db.users.find({
+            "created_at": {"$gte": datetime.utcnow() - timedelta(days=7)},
+            "role": "user"
+        }).sort("created_at", -1).limit(3).to_list(3)
+        
+        for user in recent_users:
+            time_diff = datetime.utcnow() - user['created_at']
+            hours_ago = int(time_diff.total_seconds() / 3600)
+            activities.append({
+                "type": "user_registered",
+                "icon": "fas fa-user",
+                "color": "blue",
+                "title": "Thành viên mới",
+                "description": f"{user['username']} đã đăng ký",
+                "time_ago": f"{hours_ago} giờ trước" if hours_ago > 0 else "Vừa xong",
+                "timestamp": user['created_at']
+            })
+        
+        # Get recent news (last 7 days)
+        recent_news = await db.news_articles.find({
+            "created_at": {"$gte": datetime.utcnow() - timedelta(days=7)}
+        }).sort("created_at", -1).limit(2).to_list(2)
+        
+        for news in recent_news:
+            time_diff = datetime.utcnow() - news['created_at']
+            hours_ago = int(time_diff.total_seconds() / 3600)
+            activities.append({
+                "type": "news_created",
+                "icon": "fas fa-newspaper",
+                "color": "purple",
+                "title": "Tin tức mới",
+                "description": news['title'][:50] + ("..." if len(news['title']) > 50 else ""),
+                "time_ago": f"{hours_ago} giờ trước" if hours_ago > 0 else "Vừa xong",
+                "timestamp": news['created_at']
+            })
+        
+        # Sort by timestamp and limit
+        activities.sort(key=lambda x: x['timestamp'], reverse=True)
+        return activities[:limit]
+        
+    except Exception as e:
+        logger.error(f"Error getting recent activities: {str(e)}")
+        return []
+
 # Include the router in the main app
 app.include_router(api_router)
 
