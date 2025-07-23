@@ -967,22 +967,45 @@ const AdminDashboard = () => {
                 <div className="bg-white border border-gray-200 rounded-lg p-6">
                   <h3 className="text-lg font-semibold mb-4">Thành phố có nhiều BDS nhất</h3>
                   <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="font-medium">Hồ Chí Minh</span>
-                      <span className="text-emerald-600 font-semibold">15 BDS</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="font-medium">Hà Nội</span>
-                      <span className="text-emerald-600 font-semibold">8 BDS</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="font-medium">Đà Nẵng</span>
-                      <span className="text-emerald-600 font-semibold">4 BDS</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="font-medium">Cần Thơ</span>
-                      <span className="text-emerald-600 font-semibold">3 BDS</span>
-                    </div>
+                    {(() => {
+                      // Calculate city statistics from properties
+                      const cityCount = {};
+                      properties.forEach(property => {
+                        if (property.city) {
+                          cityCount[property.city] = (cityCount[property.city] || 0) + 1;
+                        }
+                      });
+                      
+                      // Convert to array and sort by count
+                      const sortedCities = Object.entries(cityCount)
+                        .sort(([,a], [,b]) => b - a)
+                        .slice(0, 5);
+                      
+                      if (sortedCities.length === 0) {
+                        return (
+                          <div className="text-center py-8 text-gray-500">
+                            <i className="fas fa-map-marker-alt text-2xl mb-2"></i>
+                            <p>Chưa có dữ liệu thành phố</p>
+                          </div>
+                        );
+                      }
+                      
+                      return sortedCities.map(([city, count], index) => (
+                        <div key={city} className="flex justify-between items-center py-2 border-b border-gray-100">
+                          <div className="flex items-center space-x-2">
+                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white ${
+                              index === 0 ? 'bg-yellow-500' : 
+                              index === 1 ? 'bg-gray-400' : 
+                              index === 2 ? 'bg-amber-600' : 'bg-emerald-500'
+                            }`}>
+                              {index + 1}
+                            </span>
+                            <span className="font-medium">{city}</span>
+                          </div>
+                          <span className="text-emerald-600 font-semibold">{count} BDS</span>
+                        </div>
+                      ));
+                    })()}
                   </div>
                 </div>
               </div>
