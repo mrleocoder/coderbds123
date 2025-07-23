@@ -2255,7 +2255,7 @@ const AdminDashboard = () => {
                             legal_status: formData.get('legal_status'),
                             contact_phone: formData.get('contact_phone'),
                             orientation: formData.get('orientation'),
-                            description: landDescription || editingItem?.description || '',
+                            description: landDescription || '',
                             featured: formData.get('featured') === 'on',
                             images: images.length > 0 ? images : (editingItem?.images || [])
                           };
