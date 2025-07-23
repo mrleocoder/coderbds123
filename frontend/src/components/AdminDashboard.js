@@ -1832,6 +1832,7 @@ const AdminDashboard = () => {
                               </div>
                               <input 
                                 type="file" 
+                                name="images"
                                 className="hidden" 
                                 multiple 
                                 accept="image/*"
