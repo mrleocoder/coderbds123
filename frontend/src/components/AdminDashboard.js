@@ -1807,7 +1807,7 @@ const AdminDashboard = () => {
                           <label className="block text-sm font-medium text-gray-700">Mô tả chi tiết bất động sản</label>
                           <div style={{backgroundColor: 'white'}}>
                             <ReactQuill
-                              value={propertyDescription || editingItem?.description || ''}
+                              value={propertyDescription}
                               onChange={setPropertyDescription}
                               modules={quillModules}
                               formats={quillFormats}
@@ -1819,7 +1819,7 @@ const AdminDashboard = () => {
                               }}
                             />
                           </div>
-                          <input type="hidden" name="description" value={propertyDescription || editingItem?.description || ''} />
+                          <input type="hidden" name="description" value={propertyDescription} />
                         </div>
                         <div className="space-y-4">
                           <h4 className="font-medium text-gray-700">Upload ảnh bìa và ảnh mô tả</h4>
