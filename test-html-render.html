@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test HTML Render</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test HTML Content Rendering</h1>
+        
+        <div class="test-section">
+            <h2>Original HTML from Database:</h2>
+            <pre>&lt;h2&gt;&lt;strong&gt;Chung cư Imperia Garden&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;Địa chỉ: 203 Nguyễn Huy Tưởng, quận Thanh Xuân, TP.Hà Nội&lt;/p&gt;</pre>
+        </div>
+        
+        <div class="test-section">
+            <h2>Rendered HTML (How it should look in browser):</h2>
+            <div class="prose">
+                <h2><strong>Chung cư Imperia Garden</strong></h2>
+                <p>Địa chỉ: 203 Nguyễn Huy Tưởng, quận Thanh Xuân, TP.Hà Nội</p>
+                <p>Là tổ hợp văn phòng, nhà ở cao cấp kết hợp dịch vụ 5 sao, Imperia Garden Nguyễn Huy Tưởng được tọa lạc trên mảnh đất vàng.</p>
+                <ul>
+                    <li>View đẹp</li>
+                    <li>Nội thất sang trọng</li>
+                    <li>Vị trí thuận lợi</li>
+                </ul>
+                <blockquote>
+                    <p>Đây là cơ hội tốt để đầu tư</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
