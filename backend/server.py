@@ -2233,13 +2233,28 @@ async def track_page_view(analytics_data: AnalyticsCreate):
 
 @api_router.get("/analytics/traffic")
 async def get_traffic_analytics(
-    period: str = Query("week", regex="^(day|week|month|year)$"),
+    period: str = Query("week", pattern="^(day|week|month|year)$"),
     limit: int = Query(30, le=365),
     current_user: User = Depends(get_current_user)
 ):
     """Get traffic analytics - Admin only"""
     now = datetime.utcnow()
     
+    # For month period, get daily data from traffic_analytics collection
+    if period == "month":
+        start_date = now - timedelta(days=30)
+        
+        # Get daily traffic data
+        traffic_data = await db.traffic_analytics.find({
+            "timestamp": {"$gte": start_date}
+        }).sort("date", 1).limit(30).to_list(30)
+        
+        return {
+            "period": period,
+            "data": traffic_data
+        }
+    
+    # For other periods, use original pageviews aggregation
     # Calculate date range based on period
     if period == "day":
         start_date = now - timedelta(days=limit)
@@ -2247,9 +2262,6 @@ async def get_traffic_analytics(
     elif period == "week":
         start_date = now - timedelta(weeks=limit)
         group_format = "%Y-%U"  # Year-Week
-    elif period == "month":
-        start_date = now - timedelta(days=limit*30)
-        group_format = "%Y-%m"
     else:  # year
         start_date = now - timedelta(days=limit*365)
         group_format = "%Y"
