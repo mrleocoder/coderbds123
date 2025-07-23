@@ -1628,8 +1628,7 @@ const NewsDetailPage = () => {
             
             <div className="prose max-w-none">
               <p className="text-lg text-gray-600 mb-6 font-medium">{article.excerpt}</p>
-              <div className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {article.content}
+              <div className="text-gray-700 leading-relaxed prose max-w-none" dangerouslySetInnerHTML={{__html: article.content}}>
               </div>
             </div>
           </div>
