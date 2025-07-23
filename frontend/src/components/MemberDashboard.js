@@ -95,6 +95,26 @@ const MemberDashboard = () => {
     features: []
   });
 
+  // Rich text editor states
+  const [postDescription, setPostDescription] = useState('');
+  
+  // Quill modules configuration
+  const quillModules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['blockquote', 'code-block'],
+      ['link'],
+      ['clean']
+    ],
+  };
+
+  const quillFormats = [
+    'header', 'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet', 'blockquote', 'code-block', 'link'
+  ];
+
   useEffect(() => {
     if (user) {
       fetchMemberData();
