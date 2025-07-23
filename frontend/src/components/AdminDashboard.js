@@ -1903,7 +1903,8 @@ const AdminDashboard = () => {
                           const token = localStorage.getItem('token');
                           
                           // Process image upload
-                          const imageFile = e.target.querySelector('input[name="featured_image"]').files[0];
+                          const imageInput = e.target.querySelector('input[name="featured_image"]');
+                          const imageFile = imageInput ? imageInput.files[0] : null;
                           let featuredImage = null;
                           
                           if (imageFile) {
