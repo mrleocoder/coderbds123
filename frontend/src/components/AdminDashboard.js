@@ -1694,7 +1694,7 @@ const AdminDashboard = () => {
                             district: formData.get('district'),
                             city: formData.get('city'),
                             contact_phone: formData.get('contact_phone'),
-                            description: propertyDescription || editingItem?.description || '',
+                            description: propertyDescription || '',
                             featured: formData.get('featured') === 'on',
                             status: 'for_sale',
                             images: images.length > 0 ? images : (editingItem?.images || [])
