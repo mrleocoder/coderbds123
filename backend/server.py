@@ -2868,6 +2868,91 @@ async def reject_member_post(
     
     return {"message": f"{post['post_type']} post rejected and fee refunded"}
 
+# Image Upload Routes
+@api_router.post("/upload/image")
+async def upload_image(file: UploadFile = File(...)):
+    """Upload image and return base64 encoded string"""
+    try:
+        # Check file type
+        if not file.content_type.startswith('image/'):
+            raise HTTPException(status_code=400, detail="File must be an image")
+        
+        # Check file size (max 5MB)
+        file_size = 0
+        file_content = await file.read()
+        file_size = len(file_content)
+        
+        if file_size > 5 * 1024 * 1024:  # 5MB
+            raise HTTPException(status_code=400, detail="File size too large (max 5MB)")
+        
+        # Convert to base64
+        import base64
+        base64_string = base64.b64encode(file_content).decode('utf-8')
+        data_url = f"data:{file.content_type};base64,{base64_string}"
+        
+        return {
+            "success": True,
+            "image_url": data_url,
+            "filename": file.filename,
+            "size": file_size
+        }
+        
+    except Exception as e:
+        logger.error(f"Error uploading image: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error uploading image: {str(e)}")
+
+@api_router.post("/upload/multiple-images")
+async def upload_multiple_images(files: List[UploadFile] = File(...)):
+    """Upload multiple images and return base64 encoded strings"""
+    try:
+        if len(files) > 10:  # Max 10 images
+            raise HTTPException(status_code=400, detail="Maximum 10 images allowed")
+        
+        results = []
+        total_size = 0
+        
+        for file in files:
+            # Check file type
+            if not file.content_type.startswith('image/'):
+                raise HTTPException(status_code=400, detail=f"File {file.filename} must be an image")
+            
+            # Read file content
+            file_content = await file.read()
+            file_size = len(file_content)
+            total_size += file_size
+            
+            # Check individual file size (max 5MB)
+            if file_size > 5 * 1024 * 1024:
+                raise HTTPException(status_code=400, detail=f"File {file.filename} is too large (max 5MB)")
+            
+            # Convert to base64
+            import base64
+            base64_string = base64.b64encode(file_content).decode('utf-8')
+            data_url = f"data:{file.content_type};base64,{base64_string}"
+            
+            results.append({
+                "filename": file.filename,
+                "image_url": data_url,
+                "size": file_size
+            })
+        
+        # Check total size (max 25MB for all files)
+        if total_size > 25 * 1024 * 1024:
+            raise HTTPException(status_code=400, detail="Total file size too large (max 25MB)")
+        
+        return {
+            "success": True,
+            "images": results,
+            "total_size": total_size,
+            "count": len(results)
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error uploading multiple images: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error uploading images: {str(e)}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
