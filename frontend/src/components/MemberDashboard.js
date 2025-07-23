@@ -1354,6 +1354,174 @@ const MemberDashboard = () => {
                     </div>
                   )}
 
+                  {/* SIM fields */}
+                  {createPostForm.post_type === 'sim' && (
+                    <div className="bg-white border border-gray-200 rounded-lg p-6">
+                      <h3 className="text-lg font-semibold mb-4">Thông tin SIM số đẹp</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Số điện thoại <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Số điện thoại"
+                            value={createPostForm.phone_number}
+                            onChange={(e) => setCreatePostForm({...createPostForm, phone_number: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Nhà mạng</label>
+                          <select
+                            value={createPostForm.network}
+                            onChange={(e) => setCreatePostForm({...createPostForm, network: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          >
+                            <option value="viettel">Viettel</option>
+                            <option value="vinaphone">Vinaphone</option>
+                            <option value="mobifone">Mobifone</option>
+                            <option value="vietnamobile">Vietnamobile</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Loại SIM</label>
+                          <select
+                            value={createPostForm.sim_type}
+                            onChange={(e) => setCreatePostForm({...createPostForm, sim_type: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          >
+                            <option value="prepaid">Trả trước</option>
+                            <option value="postpaid">Trả sau</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="mt-4">
+                        <label className="flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={createPostForm.is_vip}
+                            onChange={(e) => setCreatePostForm({...createPostForm, is_vip: e.target.checked})}
+                            className="mr-2 focus:ring-emerald-500"
+                          />
+                          <span className="text-sm text-gray-700">Sim VIP</span>
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Land fields */}
+                  {createPostForm.post_type === 'land' && (
+                    <div className="bg-white border border-gray-200 rounded-lg p-6">
+                      <h3 className="text-lg font-semibold mb-4">Thông tin dự án đất</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Loại đất</label>
+                          <select
+                            value={createPostForm.land_type}
+                            onChange={(e) => setCreatePostForm({...createPostForm, land_type: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          >
+                            <option value="residential">Đất ở</option>
+                            <option value="commercial">Đất thương mại</option>
+                            <option value="industrial">Đất công nghiệp</option>
+                            <option value="agricultural">Đất nông nghiệp</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Diện tích (m²)</label>
+                          <input
+                            type="number"
+                            placeholder="Diện tích"
+                            value={createPostForm.area}
+                            onChange={(e) => setCreatePostForm({...createPostForm, area: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Chiều rộng (m)</label>
+                          <input
+                            type="number"
+                            placeholder="Chiều rộng"
+                            value={createPostForm.width}
+                            onChange={(e) => setCreatePostForm({...createPostForm, width: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Chiều dài (m)</label>
+                          <input
+                            type="number"
+                            placeholder="Chiều dài"
+                            value={createPostForm.length}
+                            onChange={(e) => setCreatePostForm({...createPostForm, length: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Địa chỉ</label>
+                          <input
+                            type="text"
+                            placeholder="Địa chỉ"
+                            value={createPostForm.address}
+                            onChange={(e) => setCreatePostForm({...createPostForm, address: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Quận/Huyện</label>
+                          <input
+                            type="text"
+                            placeholder="Quận/Huyện"
+                            value={createPostForm.district}
+                            onChange={(e) => setCreatePostForm({...createPostForm, district: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Thành phố</label>
+                          <input
+                            type="text"
+                            placeholder="Thành phố"
+                            value={createPostForm.city}
+                            onChange={(e) => setCreatePostForm({...createPostForm, city: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Tình trạng pháp lý</label>
+                          <select
+                            value={createPostForm.legal_status}
+                            onChange={(e) => setCreatePostForm({...createPostForm, legal_status: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          >
+                            <option value="Sổ đỏ">Sổ đỏ</option>
+                            <option value="Sổ hồng">Sổ hồng</option>
+                            <option value="Giấy tờ khác">Giấy tờ khác</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Hướng</label>
+                          <select
+                            value={createPostForm.orientation}
+                            onChange={(e) => setCreatePostForm({...createPostForm, orientation: e.target.value})}
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          >
+                            <option value="Đông">Đông</option>
+                            <option value="Tây">Tây</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Bắc">Bắc</option>
+                            <option value="Đông Nam">Đông Nam</option>
+                            <option value="Tây Nam">Tây Nam</option>
+                            <option value="Đông Bắc">Đông Bắc</option>
+                            <option value="Tây Bắc">Tây Bắc</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Submit Button */}
                   <div className="flex justify-end space-x-4">
                     <button
