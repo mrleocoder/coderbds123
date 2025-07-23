@@ -2007,7 +2007,7 @@ const AdminDashboard = () => {
                           <label className="block text-sm font-medium text-gray-700">Nội dung chi tiết</label>
                           <div style={{backgroundColor: 'white'}}>
                             <ReactQuill
-                              value={newsContent || editingItem?.content || ''}
+                              value={newsContent}
                               onChange={setNewsContent}
                               modules={quillModules}
                               formats={quillFormats}
@@ -2019,7 +2019,7 @@ const AdminDashboard = () => {
                               }}
                             />
                           </div>
-                          <input type="hidden" name="content" value={newsContent || editingItem?.content || ''} />
+                          <input type="hidden" name="content" value={newsContent} />
                         </div>
                         <div className="space-y-4">
                           <h4 className="font-medium text-gray-700">Upload ảnh đại diện</h4>
