@@ -1941,7 +1941,10 @@ const AdminDashboard = () => {
                           fetchAdminData();
                         } catch (error) {
                           console.error('Error saving news:', error);
-                          toast.error('Có lỗi xảy ra khi lưu tin tức!');
+                          console.error('Error response:', error.response?.data);
+                          console.error('Error status:', error.response?.status);
+                          const errorMessage = error.response?.data?.detail || error.message || 'Có lỗi xảy ra khi lưu tin tức!';
+                          toast.error(errorMessage);
                         }
                       }} className="space-y-4">
                         <div className="grid grid-cols-1 gap-4">
